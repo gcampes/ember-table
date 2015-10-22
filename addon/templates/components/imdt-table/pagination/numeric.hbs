@@ -1,0 +1,31 @@
+<ul class="imdt-table-pagination-numeric">
+  <li {{bind-attr class=":previous gotoBackEnabled::disabled"}}>
+    <span {{action "gotoPrevPage"}}>
+      {{{messages.pagination.prev}}}
+    </span>
+  </li>
+
+  {{#each visiblePageNumbers.prevPages as |page|}}
+    <li>
+      <span {{action "gotoPage" page}}>
+        {{page}}
+      </span>
+    </li>
+  {{/each}}
+
+  <li class="active"><span>{{currentPageNumber}}</span></li>
+
+  {{#each visiblePageNumbers.nextPages as |page|}}
+    <li>
+      <span {{action "gotoPage" page}}>
+        {{page}}
+      </span>
+    </li>
+  {{/each}}
+
+  <li {{bind-attr class=":next gotoForwardEnabled::disabled"}}>
+    <span {{action "gotoNextPage"}}>
+      {{{messages.pagination.next}}}
+    </span>
+  </li>
+</ul>

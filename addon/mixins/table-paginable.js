@@ -1,0 +1,226 @@
+import Ember from 'ember';
+
+const {
+  get,
+  set,
+  getProperties,
+  on,
+  computed,
+  observer,
+  A,
+  getWithDefault,
+} = Ember;
+
+const DEFAULT_MESSAGES = {
+  prev: '&lsaquo;',
+  next: '&rsaquo;',
+  first: '&laquo;',
+  last: '&raquo;',
+  summary: '%@ - %@ ~ %@',
+};
+
+export default Ember.Mixin.create({
+  /**
+   * Defines if the table should use pagination
+   * @type {number}
+   */
+  paginable: true,
+
+  /**
+   * Define if the pagination template is simple or numeric
+   * @type {number}
+   */
+  useSimplePagination: true,
+
+  /**
+   * List of possible <code>pageSize</code> values
+   * Used to change size of <code>visibleContent</code>
+   * @type {number[]}
+   */
+  pageSizeValues: new A([10, 25, 50]),
+
+  /**
+   * Number of records shown on one table-page (size of the <code>visibleContent</code>)
+   * Should be a pageSizeValues element
+   * @type {number}
+   */
+  pageSize: computed('pageSizeValues.[]', function() {
+    return get(this, 'pageSizeValues').get('firstObject');
+  }),
+
+  /**
+   * @type {number}
+   */
+  currentPageNumber: 1,
+
+  /**
+   * Pagination template
+   * @type {string}
+   */
+  paginationTemplate: 'components/imdt-table/pagination',
+
+  /**
+   * Template with First|Prev|Next|Last buttons
+   * @type {string}
+   */
+  simplePaginationTemplate: 'components/imdt-table/pagination/simple',
+
+  /**
+   * Template with nav buttons
+   * @type {string}
+   */
+  numericPaginationTemplate: 'components/imdt-table/pagination/numeric',
+
+  /**
+   * Content of the current table page
+   * @type {Ember.Object[]}
+   */
+  visibleContent: computed('arrangedContent.[]', 'pageSize', 'currentPageNumber', function() {
+    const {
+      arrangedContent,
+      pageSize,
+      currentPageNumber
+    } = getProperties(this, 'arrangedContent', 'pageSize', 'currentPageNumber');
+    const startIndex = pageSize * (currentPageNumber - 1);
+    if (get(arrangedContent, 'length') < pageSize) {
+      return arrangedContent;
+    }
+    return new A(arrangedContent.slice(startIndex, startIndex + pageSize));
+  }),
+
+  /**
+   * Number of pages
+   * @type {number}
+   */
+  pagesCount: computed('arrangedContent.[]', 'pageSize', function() {
+    const pagesCount = get(this, 'arrangedContent.length') / get(this, 'pageSize');
+    return (0 === pagesCount % 1) ? pagesCount : (Math.floor(pagesCount) + 1);
+  }),
+
+  /**
+   * List of links to the page
+   * Used if <code>useNumericPagination</code> is true
+   * @type {{isLink: boolean, label: string, isActive: boolean}[]}
+   */
+  visiblePageNumbers: computed('arrangedContent.[]', 'pagesCount', 'currentPageNumber', function() {
+    const {
+      pagesCount,
+      currentPageNumber
+    } = getProperties(this, 'pagesCount', 'currentPageNumber');
+
+    const pageRange = 3;
+
+    let pagesToDisplay = {
+      prevPages: new A([]),
+      nextPages: new A([]),
+    };
+
+    for(let i = 1; i <= pageRange; i++) {
+      let prevPage = currentPageNumber - i;
+      let nextPage = currentPageNumber + i;
+
+      if(prevPage > 0) {
+        pagesToDisplay.prevPages.unshift(prevPage);
+      }
+
+      if(nextPage < pagesCount) {
+        pagesToDisplay.nextPages.push(nextPage);
+      }
+    }
+
+    return pagesToDisplay;
+  }),
+
+  /**
+   * Real table summary
+   * @use summaryTemplate
+   * @type {string}
+   */
+  summary: computed('pageSize', 'currentPageNumber', 'arrangedContent.[]', function () {
+    const {
+      currentPageNumber,
+      pageSize
+    } = getProperties(this, 'currentPageNumber', 'pageSize');
+    const arrangedContentLength = get(this, 'arrangedContent.length');
+    const isLastPage = get(this, 'isLastPage');
+    const firstIndex = 0 === arrangedContentLength ? 0 : pageSize * (currentPageNumber - 1) + 1;
+    const lastIndex = isLastPage ? arrangedContentLength : currentPageNumber * pageSize;
+    return Ember.String.fmt(get(this, 'messages.pagination.summary'), firstIndex, lastIndex, arrangedContentLength);
+  }),
+
+  /**
+   * Open first page if user has changed pageSize
+   * @method pageSizeDidChange
+   */
+  pageSizeDidChange: observer('pageSize', function() {
+    set(this, 'currentPageNumber', 1);
+  }),
+
+  /**
+   * Are buttons "Back" and "First" enabled
+   * @type {boolean}
+   */
+  gotoBackEnabled: computed.gt('currentPageNumber', 1),
+
+  /**
+   * Are buttons "Next" and "Last" enabled
+   * @type {boolean}
+   */
+  gotoForwardEnabled: computed('currentPageNumber', 'pagesCount', function () {
+    return get(this, 'currentPageNumber') < get(this, 'pagesCount');
+  }),
+
+  /**
+   * Append the default messages used by the mixin
+   * @type {boolean}
+   */
+   _setupMessages () {
+     set(this, 'messages.pagination', DEFAULT_MESSAGES);
+     this._super.call(this);
+   },
+
+  actions: {
+    gotoFirstPage() {
+      if (!get(this, 'gotoBackEnabled')) {
+        return;
+      }
+
+      set(this, 'currentPageNumber', 1);
+    },
+
+    gotoPrevPage() {
+      if (!get(this, 'gotoBackEnabled')) {
+        return;
+      }
+
+      if (get(this, 'currentPageNumber') > 1) {
+        this.decrementProperty('currentPageNumber');
+      }
+    },
+
+    gotoNextPage() {
+      if (!get(this, 'gotoForwardEnabled')) {
+        return;
+      }
+
+      var currentPageNumber = get(this, 'currentPageNumber');
+      var pageSize = get(this, 'pageSize');
+      var arrangedContentLength = get(this, 'arrangedContent.length');
+      if (arrangedContentLength > pageSize * (currentPageNumber - 1)) {
+        this.incrementProperty('currentPageNumber');
+      }
+    },
+
+    gotoLastPage() {
+      if (!get(this, 'gotoForwardEnabled')) {
+        return;
+      }
+
+      set(this, 'currentPageNumber', get(this, 'pagesCount'));
+    },
+
+    gotoPage(pageNumber) {
+      set(this, 'currentPageNumber', pageNumber);
+    },
+  }
+});

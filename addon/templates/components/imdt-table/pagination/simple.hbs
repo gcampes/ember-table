@@ -1,0 +1,22 @@
+<ul class="imdt-table-pagination-simple">
+  <li {{bind-attr class=":first gotoBackEnabled::disabled"}}>
+    <span {{action "gotoFirstPage"}}>
+      {{{messages.pagination.first}}}
+    </span>
+  </li>
+  <li {{bind-attr class=":previous gotoBackEnabled::disabled"}}>
+    <span {{action "gotoPrevPage"}}>
+      {{{messages.pagination.prev}}}
+    </span>
+  </li>
+  <li {{bind-attr class=":next gotoForwardEnabled::disabled"}}>
+    <span {{action "gotoNextPage"}}>
+      {{{messages.pagination.next}}}
+    </span>
+  </li>
+  <li {{bind-attr class=":last gotoForwardEnabled::disabled"}}>
+    <span {{action "gotoLastPage"}}>
+      {{{messages.pagination.last}}}
+    </span>
+  </li>
+</ul>
