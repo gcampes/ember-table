@@ -4,11 +4,9 @@ const {
   get,
   set,
   getProperties,
-  on,
   computed,
   observer,
   A,
-  getWithDefault,
 } = Ember;
 
 const DEFAULT_MESSAGES = {

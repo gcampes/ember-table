@@ -2,12 +2,10 @@ import Ember from 'ember';
 
 const {
   A,
-  on,
   set,
   get,
   getProperties,
   computed,
-  getWithDefault,
   observer
 } = Ember;
 
@@ -36,22 +34,47 @@ export default Ember.Mixin.create({
   searchTemplate: 'components/imdt-table/search',
 
   /**
+   * Search term length for the back search
+   * @type {integer}
+   */
+
+  /**
    * @type {Ember.Object[]}
    */
+
+  cachedContent: new A([]),
+
   filteredContent: computed('searchTerm', 'content.[]', function() {
     const {
       processedColumns,
       content,
-      searchIgnoreCase,
-    } = getProperties(this, 'processedColumns', 'content', 'searchIgnoreCase');
+      cachedContent,
+      searchIgnoreCase
+    } = getProperties(this, 'processedColumns', 'content', 'cachedContent', 'searchIgnoreCase');
 
     let searchTerm = get(this, 'searchTerm');
 
+    // If the search field is empty, return the original arrangedContent
     if(!get(searchTerm, 'length')) {
       return content;
     }
 
-    return new A(content.filter(function (row) {
+    // If the searched is already cached, return the corresponding array
+    if(cachedContent[searchTerm]){
+      return cachedContent[searchTerm];
+    }
+
+    // Sets where to search if the search field is not empty
+    let contentToSearch = content;
+    if (get(searchTerm, 'length') > 1) {
+      let slice = searchTerm.slice(0, searchTerm.length-1);
+        if (slice.length && cachedContent[slice]){
+          contentToSearch = cachedContent[slice];
+        }
+    }
+
+    // Search
+    let filteredContent = new A(contentToSearch.filter(function (row) {
       return processedColumns.length ? processedColumns
       //.filter(x => x.get('isSearchable'))
       .any(c => {
@@ -69,6 +92,11 @@ export default Ember.Mixin.create({
         return false;
       }) : true;
     }));
+
+    // Cache the content
+    cachedContent[searchTerm] = filteredContent;
+
+    return filteredContent;
   }),
 
   /**

@@ -59,7 +59,13 @@ export default Ember.Controller.extend({
   {
     contentPath: 'age',
     columnTitle: 'Age'
-  }]),
+  },
+  {
+    contentPath: 'template',
+    columnTitle: 'Template',
+    template: 'custom/button'
+  }
+]),
   sort: new A(['city:desc', 'firstName:desc', 'lastName:asc']),
 
   ages: Ember.computed.mapBy('content', 'age'),

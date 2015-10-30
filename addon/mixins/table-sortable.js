@@ -87,7 +87,7 @@ export default Ember.Mixin.create({
           newSortProperties.pushObject(`${sortBy}:${newSorting}`);
         }
       }
-      
+
       set(this, 'sortProperties', newSortProperties);
     },
   }
