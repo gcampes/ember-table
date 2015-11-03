@@ -43,8 +43,8 @@ export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, 
 
   /**
    * @type {Ember.Object[]}
-   * content -> arrangedContent -> filteredContent -> visibleContent
-   * raw     -> sort            -> search          -> page
+   * content -> filteredContent   -> arrangedContent -> visibleContent
+   * raw     -> search            -> sort            -> page
    */
   processedContent: computed('content.[]', 'filteredContent.[]', 'arrangedContent.[]', 'visibleContent.[]', function() {
     if(get(this, 'paginable')) {
@@ -57,7 +57,7 @@ export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, 
 
     if(get(this, 'searchable')) {
       return get(this, 'filteredContent');
-    }    
+    }
 
     return get(this, 'content');
   }),
