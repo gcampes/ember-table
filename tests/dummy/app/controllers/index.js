@@ -39,7 +39,7 @@ var generateContent = function(recordsCount) {
 };
 
 export default Ember.Controller.extend({
-  content: generateContent(10000),
+  content: generateContent(100),
   columns: new A([{
     contentPath: 'id',
     columnTitle: 'ID',

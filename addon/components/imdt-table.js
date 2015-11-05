@@ -58,7 +58,6 @@ export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, 
     if(get(this, 'searchable')) {
       return get(this, 'filteredContent');
     }
-
     return get(this, 'content');
   }),
 
@@ -84,7 +83,18 @@ export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, 
   /**
    * @type {ColumnDefinition[]}
    */
-  processedColumns: new A([]),
+  processedColumns: Ember.computed('columns', function(){
+    let processedColumns = new A(get(this, 'columns').map(column => {
+      let c = ColumnDefinition.create(column);
+
+      if(isNone(c.get('sortPath'))) {
+        c.set('sortPath', c.get('contentPath'));
+      }
+
+      return c;
+    }));
+    return processedColumns;
+  }),
 
   /**
    * Component init
@@ -94,7 +104,6 @@ export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, 
    */
   setup: on('init', function() {
     this._setupMessages.call(this);
-    this._setupColumns.call(this);
     this._super.call(this);
   }),
 
@@ -132,4 +141,10 @@ export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, 
 
     set(this, 'messages', Ember.Object.create(newMessages));
   },
+
+  actions: {
+    sendAction () {
+      this.sendAction.apply(this, arguments);
+    },
+  }
 });
