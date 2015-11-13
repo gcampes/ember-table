@@ -44,6 +44,10 @@ export default Ember.Mixin.create({
 
   cachedContent: new A([]),
 
+  contentObserverToClearCache: Ember.observer('content.[]', function(){
+    this.set('cachedContent', new A([]));
+  }),
+
   filteredContent: computed('searchTerm', 'content.[]', function() {
     const {
       processedColumns,

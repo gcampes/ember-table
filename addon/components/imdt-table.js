@@ -23,6 +23,8 @@ const DEFAULT_MESSAGES = {
 };
 
 export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, TablePaginableMixin, {
+  classNames: ['imdt-table-area'],
+
   layout: layout,
 
   /**
