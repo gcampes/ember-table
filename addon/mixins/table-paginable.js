@@ -220,5 +220,16 @@ export default Ember.Mixin.create({
     gotoPage(pageNumber) {
       set(this, 'currentPageNumber', pageNumber);
     },
+
+    change() {
+      let changeAction = this.get('action');
+      let selectedEl = this.$('select')[0];
+      let selectedIndex = selectedEl.selectedIndex;
+      let content = this.get('content');
+      let selectedValue = content[selectedIndex];
+
+      this.set('pageSize', selectedValue);
+      // changeAction(selectedValue);
+    }
   }
 });
