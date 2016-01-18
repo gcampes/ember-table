@@ -20,21 +20,19 @@
   <tbody>
     {{#if processedContent.length}}
       {{#each processedContent as |record|}}
-        {{#unless record.isNew}}
-          <tr>
-            {{#each processedColumns as |column|}}
-              {{#if column.isVisible}}
-                <td class={{column.className}}>
-                  {{#if column.template}}
-                    {{partial column.template}}
-                  {{else}}
-                    {{{get record column.contentPath}}}
-                  {{/if}}
-                </td>
-              {{/if}}
-            {{/each}}
-          </tr>
-        {{/unless}}
+        <tr>
+          {{#each processedColumns as |column|}}
+            {{#if column.isVisible}}
+              <td class={{column.className}}>
+                {{#if column.template}}
+                  {{partial column.template}}
+                {{else}}
+                  {{{get record column.contentPath}}}
+                {{/if}}
+              </td>
+            {{/if}}
+          {{/each}}
+        </tr>
       {{/each}}
     {{else}}
       <tr><td colspan={{processedColumns.length}}>{{{messages.emptyTable}}}</td></tr>
