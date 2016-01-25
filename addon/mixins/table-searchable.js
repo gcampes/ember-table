@@ -10,7 +10,7 @@ const {
 } = Ember;
 
 const DEFAULT_MESSAGES = {
-  label: 'Search: ',
+  label: 'Busca: ',
 };
 
 export default Ember.Mixin.create({

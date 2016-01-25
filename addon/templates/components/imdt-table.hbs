@@ -1,6 +1,7 @@
 {{#if searchable}}
   {{partial searchTemplate}}
 {{/if}}
+
 <table class={{tableClassNames}}>
   <thead>
     <tr>
@@ -42,6 +43,7 @@
     {{yield this}}
   </tfoot>
 </table>
+
 {{#if paginable}}
   {{partial paginationTemplate}}
 {{/if}}
