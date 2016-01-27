@@ -22,7 +22,7 @@ export default Ember.Component.extend({
       const selectedValue = content[selectedIndex];
 
       this.set('selectedValue', selectedValue);
-      changeAction(selectedValue);
+      // changeAction(selectedValue);
     }
   }
 });
