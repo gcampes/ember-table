@@ -1,8 +1,8 @@
-<div class="imdt-table-search-widget">
-    <label class="imdt-table-search-label col-md-2 col-md-offset-7">
-      {{{messages.search.label}}}
-    </label>
-    <div class="col-md-3 no-padding">
-      {{input type="search" value=searchTerm class="imdt-table-search-input form-control"}}
+<div class="imdt-table-search-widget clearfix">
+    <div class="col-sm-3 col-sm-offset-9 no-padding">
+      <div class="input-group">
+        <div class="input-group-addon">{{fa-icon 'search' fixedWidth=true}}</div>
+        {{input type="search" value=searchTerm class="imdt-table-search-input form-control"}}
+      </div>
     </div>
 </div>

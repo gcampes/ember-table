@@ -1,7 +1,5 @@
-<select {{action 'change' on='change'}}>
-  {{#each content key="@index" as |item|}}
-    <option value="{{item}}" selected={{is-equal item selectedValue}}>
-      {{item}}
-    </option>
-  {{/each}}
-</select>
+{{#power-select searchEnabled=false selected=selectedValue options=content onchange=(action (mut selectedValue)) as |item|}}
+  <div class="ember-power-select-item">
+    {{item}}
+  </div>
+{{/power-select}}

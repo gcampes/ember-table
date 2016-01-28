@@ -11,18 +11,5 @@ export default Ember.Component.extend({
     if (!content) {
       this.set('content', []);
     }
-  },
-
-  actions: {
-    change() {
-      const changeAction = this.get('action');
-      const selectedEl = this.$('select')[0];
-      const selectedIndex = selectedEl.selectedIndex;
-      const content = this.get('content');
-      const selectedValue = content[selectedIndex];
-
-      this.set('selectedValue', selectedValue);
-      // changeAction(selectedValue);
-    }
   }
 });

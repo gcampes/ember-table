@@ -1,13 +1,11 @@
-<div class="imdt-table-pagination-widget">
-  <div class="imdt-table-pagination-summary">
+<div class="imdt-table-pagination-widget row">
+  <div class="imdt-table-pagination-page-size col-sm-1">
+    {{select-page content=pageSizeValues selectedValue=pageSize}}
+  </div>
+  <div class="imdt-table-pagination-summary col-sm-2">
     {{{summary}}}
   </div>
-  <div class="imdt-table-pagination-page-size">
-    
-    {{select-page content=pageSizeValues selectedValue=pageSize}}
-
-  </div>
-  <nav class="imdt-table-navigation">
+  <nav class="imdt-table-navigation col-sm-6 col-sm-offset-3">
     {{#if useSimplePagination}}
       {{partial simplePaginationTemplate}}
     {{else}}
