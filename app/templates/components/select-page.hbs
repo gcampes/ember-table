@@ -1,4 +1,4 @@
-{{#power-select searchEnabled=false selected=selectedValue options=content onchange=(action (mut selectedValue)) as |item|}}
+{{#power-select allowClear='false' searchEnabled=false selected=selectedValue options=content onchange=(action (mut selectedValue)) as |item|}}
   <div class="ember-power-select-item">
     {{item}}
   </div>
