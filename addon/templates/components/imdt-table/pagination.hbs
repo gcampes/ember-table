@@ -5,6 +5,7 @@
   <div class="imdt-table-pagination-summary col-sm-2">
     {{{summary}}}
   </div>
+  {{#if shouldDisplayPagination}}
   <nav class="imdt-table-navigation col-sm-6 col-sm-offset-3">
     {{#if useSimplePagination}}
       {{partial simplePaginationTemplate}}
@@ -12,4 +13,5 @@
       {{partial numericPaginationTemplate}}
     {{/if}}
   </nav>
+  {{/if}}
 </div>

@@ -7,11 +7,14 @@
     <tr>
       {{#each processedColumns as |column|}}
         {{#if sortable}}
-          <th class="{{if column.isSortable 'sort' 'no-sort'}} {{if column.isAsc 'sort-asc'}} {{if column.isDesc 'sort-desc'}} column.className" onclick={{action "sort" column}}>
+          <th class="{{if column.isSortable 'sort' 'no-sort'}}
+                  {{if column.isAsc 'sort-asc'}}
+                  {{if column.isDesc 'sort-desc'}}
+                  column.className" onclick={{action "sort" column}}>
             {{column.columnTitle}}
           </th>
         {{else}}
-          <th {{bind-attr class="column.className"}}>
+          <th class="{{column.className}}"}}>
             {{{column.columnTitle}}}
           </th>
         {{/if}}

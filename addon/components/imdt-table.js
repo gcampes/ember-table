@@ -19,7 +19,7 @@ const {
 } = Ember;
 
 const DEFAULT_MESSAGES = {
-  emptyTable: 'No records to show'
+  emptyTable: 'Nenhum registro'
 };
 
 export default Ember.Component.extend(TableSearchableMixin, TableSortableMixin, TablePaginableMixin, {

@@ -69,6 +69,10 @@ export default Ember.Mixin.create({
    */
   numericPaginationTemplate: 'components/imdt-table/pagination/numeric',
 
+  shouldDisplayPagination: computed('arrangedContent.[]', 'pageSize', function(){
+    return get(this, 'arrangedContent.length') > get(this, 'pageSize');
+  }),
+
   /**
    * Content of the current table page
    * @type {Ember.Object[]}
@@ -127,6 +131,16 @@ export default Ember.Mixin.create({
     }
 
     return pagesToDisplay;
+  }),
+
+  isLastPage: computed('pageSize', 'currentPageNumber', 'arrangedContent.[]', function(){
+    const pageSize = get(this, 'pageSize');
+    const currentPageNumber = get(this, 'currentPageNumber');
+    const arrangedContentLength = get(this, 'arrangedContent.length');
+    if(pageSize * currentPageNumber >= arrangedContentLength){
+      return true;
+    }
+    return false;
   }),
 
   /**

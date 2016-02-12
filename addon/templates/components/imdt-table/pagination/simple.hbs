@@ -1,20 +1,20 @@
 <ul class="pagination imdt-table-pagination-simple pull-right">
-  <li {{bind-attr class=":first gotoBackEnabled::disabled"}}>
+  <li class="first {{unless gotoBackEnabled 'disabled'}}">
     <span {{action "gotoFirstPage"}}>
       {{{messages.pagination.first}}}
     </span>
   </li>
-  <li {{bind-attr class=":previous gotoBackEnabled::disabled"}}>
+  <li class="previous {{unless gotoBackEnabled 'disabled'}}">
     <span {{action "gotoPrevPage"}}>
       {{{messages.pagination.prev}}}
     </span>
   </li>
-  <li {{bind-attr class=":next gotoForwardEnabled::disabled"}}>
+  <li class="next {{unless gotoForwardEnabled 'disabled'}}">
     <span {{action "gotoNextPage"}}>
       {{{messages.pagination.next}}}
     </span>
   </li>
-  <li {{bind-attr class=":last gotoForwardEnabled::disabled"}}>
+  <li class="last {{unless gotoForwardEnabled 'disabled'}}">
     <span {{action "gotoLastPage"}}>
       {{{messages.pagination.last}}}
     </span>
