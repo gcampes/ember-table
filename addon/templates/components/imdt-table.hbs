@@ -10,7 +10,7 @@
           <th class="{{if column.isSortable 'sort' 'no-sort'}}
                   {{if column.isAsc 'sort-asc'}}
                   {{if column.isDesc 'sort-desc'}}
-                  column.className" onclick={{action "sort" column}}>
+                  {{column.className}}" onclick={{action "sort" column}}>
             {{column.columnTitle}}
           </th>
         {{else}}
