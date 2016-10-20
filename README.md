@@ -1,6 +1,14 @@
+# This project was moved to: https://github.com/iMDT/ember-imdt-table
+
+====
+
+====
+
+====
+
 # Ember-imdt-table
 This is an Ember Table Component inspired on Ember-models-table: https://github.com/onechiporenko/ember-models-table
-# This project was moved to: https://github.com/iMDT/ember-imdt-table
+
 # Installation
 
 * `git clone` this repository
