@@ -145,7 +145,6 @@ columns: new A([{
     template: 'custom/button'
   }
  ```
-...
 ## Running
 
 * `ember server`
