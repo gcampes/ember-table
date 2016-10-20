@@ -9,12 +9,6 @@
 # Ember Table
 This is an Ember Table Component inspired on Ember-models-table: https://github.com/onechiporenko/ember-models-table
 
-# Installation
-
-* `git clone` this repository
-* `npm install`
-* `bower install`
-
 ## Usage
 
 First set your content up, here we are using a predefined json as the content, but you can use your model aswell.
