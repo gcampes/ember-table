@@ -6,7 +6,7 @@
 
 ====
 
-# Ember-imdt-table
+# Ember Table
 This is an Ember Table Component inspired on Ember-models-table: https://github.com/onechiporenko/ember-models-table
 
 # Installation
